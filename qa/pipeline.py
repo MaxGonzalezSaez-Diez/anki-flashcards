@@ -40,14 +40,14 @@ from collection_apy import (
 )
 from backup_repo_sync import sync_qa_pairs_deck
 from config import MergeConfig, load_merge_config
-from hashing import deck_slug, q_front_key, q_hash
+from hashing import deck_slug, qa_deck_dir, qa_deck_relpath, q_front_key, q_hash
 from merged_ledger import load_merged_hashes, save_merged_hashes
 from jsonl_store import cards_jsonl_path, load_latest_cleaned_cards, write_cards_jsonl_atomic
 from parse_qa import markdown_back
 from state import write_last_sync_epoch
 
 
-DEFAULT_QA_FLASHCARDS_REPO = Path.home() / ".cache" / "qa_flashcards_repo"
+DEFAULT_QA_FLASHCARDS_REPO = Path.home() / "Desktop" / "projects" / "anki-cards"
 
 
 def _field_value(fields: Any, name: str) -> str:
@@ -252,9 +252,7 @@ def _git_snapshot_targets(root: Path, cfg: MergeConfig) -> tuple[Path | None, li
         repo = Path(override).expanduser().resolve()
         if not (repo / ".git").is_dir():
             return None, []
-        sub = (cfg.git_qa_subdir or "qa_pairs").strip().strip("/\\").replace("\\", "/")
-        slug = deck_slug(cfg.anki_deck)
-        return repo, [f"{sub}/{slug}"]
+        return repo, [qa_deck_relpath(cfg)]
     repo = root_r
     if not (repo / ".git").is_dir():
         return None, []
@@ -437,8 +435,7 @@ def _pull_cleaned_repo(cfg: MergeConfig) -> Path | None:
 def _load_cleaned_cards_for_merge(root: Path, cfg: MergeConfig, repo: Path | None) -> dict[str, dict[str, Any]]:
     """Prefer cleaned JSONL from pulled flashcards repo deck path, fallback to local root."""
     if repo is not None:
-        sub = (cfg.git_qa_subdir or "qa_pairs").strip().strip("/\\").replace("\\", "/")
-        repo_deck_root = repo / sub / deck_slug(cfg.anki_deck)
+        repo_deck_root = qa_deck_dir(repo, cfg)
         repo_cards = load_latest_cleaned_cards(repo_deck_root, cfg.cleaned_subdir)
         if repo_cards:
             return repo_cards
@@ -459,8 +456,7 @@ def _clear_processed_jsonl(root: Path, cfg: MergeConfig, repo: Path | None) -> i
     cleaned_dirs: list[Path] = [Path(root).expanduser() / cfg.cleaned_subdir]
     todo_dirs: list[Path] = [Path(root).expanduser() / cfg.todo_subdir]
     if repo is not None:
-        sub = (cfg.git_qa_subdir or "qa_pairs").strip().strip("/\\").replace("\\", "/")
-        repo_deck_root = repo / sub / deck_slug(cfg.anki_deck)
+        repo_deck_root = qa_deck_dir(repo, cfg)
         cleaned_dirs.append(repo_deck_root / cfg.cleaned_subdir)
         todo_dirs.append(repo_deck_root / cfg.todo_subdir)
 

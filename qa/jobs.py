@@ -13,7 +13,7 @@ from zoneinfo import ZoneInfo
 
 from config import load_merge_config, load_qa_dotenv
 from event_io import iter_assistant_structured_events_range, utc_day_strings_ending_today
-from hashing import deck_slug, q_front_key, q_hash
+from hashing import deck_slug, qa_deck_dir, qa_deck_relpath, q_front_key, q_hash
 from jsonl_store import cards_jsonl_path, load_jsonl_rows, write_jsonl_rows_atomic
 from merged_ledger import load_merged_hashes
 from parse_qa import markdown_back, parse_qa
@@ -136,15 +136,13 @@ def _prepull_extract_repo(cfg) -> tuple[Path | None, bool]:
 def _history_all_hashes_path(cfg, repo: Path | None) -> Path | None:
     if repo is None:
         return None
-    sub = (cfg.git_qa_subdir or "qa_pairs").strip().strip("/\\").replace("\\", "/")
-    return repo / sub / deck_slug(cfg.anki_deck) / "history" / "all_hashes.jsonl"
+    return qa_deck_dir(repo, cfg) / "history" / "all_hashes.jsonl"
 
 
 def _deck_root(cfg, repo: Path | None) -> Path | None:
     if repo is None:
         return None
-    sub = (cfg.git_qa_subdir or "qa_pairs").strip().strip("/\\").replace("\\", "/")
-    return repo / sub / deck_slug(cfg.anki_deck)
+    return qa_deck_dir(repo, cfg)
 
 
 def _add_seen_from_row(
@@ -235,8 +233,7 @@ def _seed_seen_from_deck_rows(
 def _load_remote_all_hashes(cfg, repo: Path | None) -> list[str]:
     if repo is None:
         return []
-    sub = (cfg.git_qa_subdir or "qa_pairs").strip().strip("/\\").replace("\\", "/")
-    rel = f"{sub}/{deck_slug(cfg.anki_deck)}/history/all_hashes.jsonl"
+    rel = f"{qa_deck_relpath(cfg)}/history/all_hashes.jsonl"
     rb = subprocess.run(
         ["git", "-C", str(repo), "rev-parse", "--abbrev-ref", "HEAD"],
         capture_output=True,

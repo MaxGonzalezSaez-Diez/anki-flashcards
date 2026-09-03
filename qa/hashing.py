@@ -5,13 +5,31 @@ from __future__ import annotations
 import hashlib
 import re
 import unicodedata
+from pathlib import Path
 from typing import Any
 
 
 def deck_slug(deck: str) -> str:
-    """Filesystem-safe segment under ``qa_pairs/<slug>/`` (matches ``_backup.deck_slug``)."""
+    """Filesystem-safe deck folder name (e.g. ``Ai-Convo-QA``)."""
     slug = re.sub(r"[^A-Za-z0-9._-]+", "-", deck.strip())
     return slug.strip("-") or "deck"
+
+
+def git_qa_sub(cfg: Any) -> str:
+    """Optional extra directory under the cards git repo. Empty = deck at repo root."""
+    return str(getattr(cfg, "git_qa_subdir", "") or "").strip().strip("/\\").replace("\\", "/")
+
+
+def qa_deck_dir(repo: Path, cfg: Any) -> Path:
+    sub = git_qa_sub(cfg)
+    base = repo / sub if sub else repo
+    return (base / deck_slug(cfg.anki_deck)).resolve()
+
+
+def qa_deck_relpath(cfg: Any) -> str:
+    sub = git_qa_sub(cfg)
+    slug = deck_slug(cfg.anki_deck)
+    return f"{sub}/{slug}" if sub else slug
 
 
 def _norm_text(value: str) -> str:

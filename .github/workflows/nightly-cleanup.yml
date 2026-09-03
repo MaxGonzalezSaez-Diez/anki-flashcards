@@ -11,8 +11,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
-      READ_CHAT_GUI_LOG_ROOT: ${{ github.workspace }}/qa_flashcards_data/qa_pairs/Ai-Convo-QA
-      READ_CHAT_GUI_GIT_REPO: ${{ github.workspace }}/qa_flashcards_data
+      READ_CHAT_GUI_LOG_ROOT: ${{ github.workspace }}/anki_cards_data/Ai-Convo-QA
+      READ_CHAT_GUI_GIT_REPO: ${{ github.workspace }}/anki_cards_data
     steps:
       - name: Checkout pipeline
         uses: actions/checkout@v4
@@ -20,8 +20,8 @@ jobs:
       - name: Checkout cards repo
         uses: actions/checkout@v4
         with:
-          repository: MaxGonzalezSaez-Diez/QA_flashcards
-          path: qa_flashcards_data
+          repository: MaxGonzalezSaez-Diez/anki-cards
+          path: anki_cards_data
           token: ${{ secrets.QA_FLASHCARDS_REPO_TOKEN }}
 
       - name: Setup Python
@@ -43,12 +43,12 @@ jobs:
         run: python qa/nightly_cleanup.py
 
       - name: Commit and push cards repo
-        working-directory: qa_flashcards_data
+        working-directory: anki_cards_data
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git pull --rebase --autostash origin main
-          git add --all -- qa_pairs/Ai-Convo-QA/qa/cleaned || true
+          git add --all -- Ai-Convo-QA/qa/cleaned || true
           git status
           git commit -m "nightly_cleanup $(date +'%Y%m%d_%H%M')" || exit 0
           for attempt in 1 2 3; do

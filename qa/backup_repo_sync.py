@@ -9,7 +9,7 @@ from typing import Any
 
 from collection_apy import fetch_notes_info, find_note_ids
 from config import MergeConfig
-from hashing import deck_slug, q_hash
+from hashing import deck_slug, qa_deck_dir, q_hash
 
 
 def _jsonl_rows(path: Path) -> list[dict[str, Any]]:
@@ -68,8 +68,7 @@ def _note_tags(note_info: dict[str, Any]) -> list[str]:
 def sync_qa_pairs_deck(repo: Path, a: Any, cfg: MergeConfig) -> None:
     """Persist current active cards + append archival history."""
     deck = cfg.anki_deck
-    sub = (cfg.git_qa_subdir or "qa_pairs").strip().strip("/\\").replace("\\", "/")
-    deck_dir = (repo / sub / deck_slug(deck)).resolve()
+    deck_dir = qa_deck_dir(repo, cfg)
     current_dir = deck_dir / "current_cards"
     history_dir = deck_dir / "history"
     current_dir.mkdir(parents=True, exist_ok=True)

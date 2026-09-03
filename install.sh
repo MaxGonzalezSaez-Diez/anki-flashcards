@@ -72,8 +72,8 @@ if command -v hs >/dev/null 2>&1; then
 	hs -c 'hs.reload()' >/dev/null 2>&1 || true
 fi
 
-echo "== point read_chat_gui log_root at this pipeline =="
-for cand in "${READ_CHAT_GUI_DIR:-}" "$HOME/read_chat_gui" "$ROOT/../read_chat_gui"; do
+echo "== point chat-logger log_root at this pipeline =="
+for cand in "${CHAT_LOGGER_DIR:-}" "$HOME/Desktop/projects/chat-logger" "$ROOT/../chat-logger"; do
 	[[ -n "$cand" && -f "$cand/settings.yaml" ]] || continue
 	"$VENV_PY" - "$cand/settings.yaml" "$LOG_ROOT" <<'PY'
 import sys

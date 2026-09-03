@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-DEFAULT_REMOTE="https://github.com/MaxGonzalezSaez-Diez/QA_flashcards.git"
-DEFAULT_LOCAL="$HOME/.cache/qa_flashcards_repo"
+DEFAULT_REMOTE="https://github.com/MaxGonzalezSaez-Diez/anki-cards.git"
+DEFAULT_LOCAL="$HOME/Desktop/projects/anki-cards"
 
 REMOTE="${1:-${BACKUP_REPO:-$DEFAULT_REMOTE}}"
 LOCAL_DIR="${2:-${BACKUP_LOCAL_REPO:-$DEFAULT_LOCAL}}"

@@ -174,12 +174,19 @@ def load_merge_config(root: Path) -> MergeConfig:
         ),
         git_repo=_env_str(
             "READ_CHAT_GUI_GIT_REPO",
-            _expand(_nested(s, "paths", "git_repo", default="")),
+            _expand(
+                _nested(
+                    s,
+                    "paths",
+                    "git_repo",
+                    default=str(Path.home() / "Desktop/projects/anki-cards"),
+                )
+            ),
         ),
         git_qa_subdir=_env_str(
             "READ_CHAT_GUI_GIT_QA_SUBDIR",
-            str(_nested(s, "paths", "git_qa_subdir", default="qa_pairs") or "qa_pairs"),
-        ),
+            str(_nested(s, "paths", "git_qa_subdir", default="") or ""),
+        ).strip().strip("/\\").replace("\\", "/"),
         anki_presync=pres or "guard",
         schedule_tz=_env_str(
             "READ_CHAT_GUI_SCHEDULE_TZ",
@@ -224,7 +231,14 @@ def load_merge_config(root: Path) -> MergeConfig:
         test_mock_anki=_env_str("READ_CHAT_GUI_TEST_MOCK_ANKI", ""),
         log_root=_env_str(
             "READ_CHAT_GUI_LOG_ROOT",
-            _expand(_nested(s, "paths", "log_root", default=str(Path.home() / ".cache/qa_flashcards_repo/qa_pairs/Ai-Convo-QA"))),
+            _expand(
+                _nested(
+                    s,
+                    "paths",
+                    "log_root",
+                    default=str(Path.home() / "Desktop/projects/anki-cards/Ai-Convo-QA"),
+                )
+            ),
         ),
         export_dir=_expand(_nested(s, "paths", "export_dir", default=str(Path.home() / "Desktop/QA"))),
         data_repo=str(_nested(s, "data_repo", default="") or ""),

@@ -8,20 +8,20 @@ anki:
   presync: forceQuit   # guard | none | forceQuit
 
 paths:
-  # Must match read_chat_gui settings.yaml log_root (install.sh can patch it).
-  log_root: ~/.cache/qa_flashcards_repo/qa_pairs/Ai-Convo-QA
-  git_repo: ~/.cache/qa_flashcards_repo
-  git_qa_subdir: qa_pairs
+  # Must match chat-logger settings.yaml log_root (install.sh can patch it).
+  log_root: ~/Desktop/projects/anki-cards/Ai-Convo-QA
+  git_repo: ~/Desktop/projects/anki-cards
+  git_qa_subdir: ""
   todo_subdir: qa/todo
   cleaned_subdir: qa/cleaned
   rotation_file: qa/cleaned/.rotation.json
   export_dir: ~/Desktop/QA
 
-data_repo: https://github.com/MaxGonzalezSaez-Diez/QA_flashcards.git
+data_repo: https://github.com/MaxGonzalezSaez-Diez/anki-cards.git
 
 schedule:
   timezone: America/Los_Angeles
-  merge: "05:15"
+  merge: "02:15"
   extract:
     - "15:00"
     - "18:00"
@@ -41,7 +41,7 @@ openrouter:
   sleep_seconds: 5
   reset_every_n: 10
   cleanup_prompt: |
-    You are being provided the back of an Anki flashcard. Please CLEAN the input up with minimal edits. Ensure the latex is all inline, the code is marked correctly with backticks and the bullet points are properly formatted as markdown with minimal edits.
+    You are being provided the back of an Anki flashcard. Please CLEAN the input up with minimal edits. Every bullet point should be a separate line. Ensure the latex is all inline, the code is marked correctly with backticks and the bullet points are properly formatted as markdown with minimal edits. 
 
 cleanup:
   dry_run: false
