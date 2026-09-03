@@ -9,8 +9,8 @@ anki:
 
 paths:
   # Must match chat-logger settings.yaml log_root (install.sh can patch it).
-  log_root: ~/Desktop/projects/anki-cards/Ai-Convo-QA
-  git_repo: ~/Desktop/projects/anki-cards
+  log_root: ~/projects/anki-cards/Ai-Convo-QA
+  git_repo: ~/projects/anki-cards
   git_qa_subdir: ""
   todo_subdir: qa/todo
   cleaned_subdir: qa/cleaned

@@ -47,7 +47,7 @@ from parse_qa import markdown_back
 from state import write_last_sync_epoch
 
 
-DEFAULT_QA_FLASHCARDS_REPO = Path.home() / "Desktop" / "projects" / "anki-cards"
+DEFAULT_QA_FLASHCARDS_REPO = Path.home() / "projects" / "anki-cards"
 
 
 def _field_value(fields: Any, name: str) -> str:

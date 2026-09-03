@@ -2,14 +2,14 @@
 set -euo pipefail
 
 # macOS. Edit PYTHON3 if needed, then re-run.
-PYTHON3="/usr/bin/python3"
+PYTHON3="${PYTHON3:-$(command -v python3.11 || command -v python3)}"
 
 if [[ "$(uname -s)" != "Darwin" ]]; then
 	echo "install.sh is macOS only." >&2
 	exit 1
 fi
 
-ROOT="$(cd "$(dirname "$0")" && pwd)"
+ROOT="$(cd "$(dirname "$0")" && pwd -P)"
 PY="${PYTHON3:-$(command -v python3)}"
 if [[ -z "$PY" || ! -x "$PY" ]]; then
 	echo "PYTHON3 must be an executable python3." >&2
@@ -73,7 +73,7 @@ if command -v hs >/dev/null 2>&1; then
 fi
 
 echo "== point chat-logger log_root at this pipeline =="
-for cand in "${CHAT_LOGGER_DIR:-}" "$HOME/Desktop/projects/chat-logger" "$ROOT/../chat-logger"; do
+for cand in "${CHAT_LOGGER_DIR:-}" "$HOME/projects/chat-logger" "$ROOT/../chat-logger"; do
 	[[ -n "$cand" && -f "$cand/settings.yaml" ]] || continue
 	"$VENV_PY" - "$cand/settings.yaml" "$LOG_ROOT" <<'PY'
 import sys

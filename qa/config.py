@@ -179,7 +179,7 @@ def load_merge_config(root: Path) -> MergeConfig:
                     s,
                     "paths",
                     "git_repo",
-                    default=str(Path.home() / "Desktop/projects/anki-cards"),
+                    default=str(Path.home() / "projects/anki-cards"),
                 )
             ),
         ),
@@ -236,7 +236,7 @@ def load_merge_config(root: Path) -> MergeConfig:
                     s,
                     "paths",
                     "log_root",
-                    default=str(Path.home() / "Desktop/projects/anki-cards/Ai-Convo-QA"),
+                    default=str(Path.home() / "projects/anki-cards/Ai-Convo-QA"),
                 )
             ),
         ),
