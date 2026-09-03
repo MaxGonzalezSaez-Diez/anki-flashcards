@@ -127,6 +127,8 @@ cat >"$PLIST_MERGE" <<EOF
   <dict>
     <key>PATH</key>
     <string>${PATH_LAUNCHD}</string>
+    <key>PYTHONUNBUFFERED</key>
+    <string>1</string>
   </dict>
   <key>WorkingDirectory</key>
   <string>${ROOT}/qa</string>
@@ -166,6 +168,8 @@ cat >"$PLIST_EXTRACT" <<EOF
   <dict>
     <key>PATH</key>
     <string>${PATH_LAUNCHD}</string>
+    <key>PYTHONUNBUFFERED</key>
+    <string>1</string>
   </dict>
   <key>WorkingDirectory</key>
   <string>${ROOT}/qa</string>
