@@ -15,6 +15,9 @@ Chats + Cursor answers → Anki. Needs [chat-logger](https://github.com/MaxGonza
 
 Chats and Anki snapshots live in `~/projects/anki-cards/Ai-Convo-QA`.
 
+# Important
+This app was written end to end by AI. There are NO WARRANTIES WHATSOEVER. You are responsible. Read the licence, keep backups of your folder.
+
 ## Hammerspoon shortcuts (optional)
 
 Not required for chat logging, nightly cleanup, or Anki merge. Skip this if you only want the pipeline.
