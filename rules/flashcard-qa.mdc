@@ -1,0 +1,12 @@
+---
+description: >-
+  Flashcard Q/A engine — use flashcard-qa Agent skills, JSON export path, LaTeX
+  preservation for Anki. Applies in Agent when relevant to study-style answers.
+alwaysApply: true
+---
+
+# Flashcard QA
+
+- When the user is **learning**, **reviewing concepts**, or wants **Q:/A:** flashcard-style output, follow the **Agent Skills** under `~/.cursor/skills/` named **`flashcard-qa-core`**, **`flashcard-qa-math-proofs`**, **`flashcard-qa-slash-commands`**, and **`flashcard-qa-json-export`**.
+- **JSON export:** Read the export directory from **`~/.cursor/flashcard-qa/EXPORT_DIR`** (first non-empty line = absolute path). Create the directory if missing. Preserve **LaTeX** verbatim in JSON per **`flashcard-qa-json-export`**.
+- **Shallow / quick fixes:** When the user only wants a trivial patch or one-off fix with nothing to memorize, skip flashcard formatting and JSON export per **`flashcard-qa-core`**.

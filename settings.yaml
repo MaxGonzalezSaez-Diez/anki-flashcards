@@ -1,0 +1,47 @@
+# Flashcard pipeline. Secrets go in `.env` (OPENROUTER_API_KEY only).
+
+anki:
+  base: ~/Library/Application Support/Anki2
+  profile: "User 1"
+  deck: Ai-Convo-QA
+  model: "Better Markdown : Basic"
+  presync: forceQuit   # guard | none | forceQuit
+
+paths:
+  # Must match read_chat_gui settings.yaml log_root (install.sh can patch it).
+  log_root: ~/.cache/qa_flashcards_repo/qa_pairs/Ai-Convo-QA
+  git_repo: ~/.cache/qa_flashcards_repo
+  git_qa_subdir: qa_pairs
+  todo_subdir: qa/todo
+  cleaned_subdir: qa/cleaned
+  rotation_file: qa/cleaned/.rotation.json
+  export_dir: ~/Desktop/QA
+
+data_repo: https://github.com/MaxGonzalezSaez-Diez/QA_flashcards.git
+
+schedule:
+  timezone: America/Los_Angeles
+  merge: "05:15"
+  extract:
+    - "15:00"
+    - "18:00"
+    - "21:00"
+  extract_poll_seconds: 900
+  # GitHub Actions cron is UTC. Keep in sync with .github/workflows/nightly-cleanup.yml
+  nightly_cleanup_utc: "07:00"
+
+extract:
+  lookback_days: 7
+  no_git: false
+
+openrouter:
+  models:
+    - nvidia/nemotron-3-super-120b-a12b:free
+    - openai/gpt-oss-120b:free
+  sleep_seconds: 5
+  reset_every_n: 10
+  cleanup_prompt: |
+    You are being provided the back of an Anki flashcard. Please CLEAN the input up with minimal edits. Ensure the latex is all inline, the code is marked correctly with backticks and the bullet points are properly formatted as markdown with minimal edits.
+
+cleanup:
+  dry_run: false
